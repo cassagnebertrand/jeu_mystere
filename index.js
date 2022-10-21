@@ -5,29 +5,28 @@ let names = [];
 var i = 0;
 function findNumber() {
   let x = document.getElementById('numb').value;
-  let text = '';
-  let errorText;
-  if (typeof x !== 'number') {
-    errorText = 'you should try with a number not a ' + typeof x + '!';
-  } else {
-    if (x > randomNumber) {
-      nbTries = nbTries + 1;
-      text = 'try again with a lesser number';
-    } else if (x < randomNumber) {
-      nbTries = nbTries + 1;
-      text = 'try again with a bigger number';
-    } else {
-      text = 'Congratulations you did it in ' + nbTries + ' tries!';
-      // scores.push(nbTries);
-      // console.log(scores);
+  var text;
+  // if (typeof x !== Number) {
+  // errorText = 'you should try with a number not a ' + typeof x + '!';
 
-      localStorage.setItem('listOfScores', nbTries);
-    }
+  if (x > randomNumber) {
+    nbTries = nbTries + 1;
+    text = 'try again with a lesser number';
+  } else if (x < randomNumber) {
+    nbTries = nbTries + 1;
+    text = 'try again with a bigger number';
+  } else {
+    text = 'Congratulations you did it in ' + nbTries + ' tries!';
+    // scores.push(nbTries);
+    // console.log(scores);
+
+    localStorage.setItem('listOfScores', nbTries);
   }
-  if (text != '') {
-    document.getElementById('demo').innerHTML = text;
-  } else document.getElementById('errorText').innerHTML = errorText;
+  document.getElementById('demo').innerHTML = text;
 }
+// if (text != '') {
+//   } else document.getElementById('errorText').innerHTML = errorText;
+// }
 function saveName() {
   localStorage.setItem(
     'listOfNames',
