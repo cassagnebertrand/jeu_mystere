@@ -1,13 +1,18 @@
 const InputNumber = document.querySelector("#input-number")
 const validateNumber = document.querySelector("#valid-number")
 const formNumber = document.querySelector("#form-number")
+
+const InputName = document.querySelector("#input-name")
+const validateName = document.querySelector("#valid-name")
+const formName = document.querySelector("#form-name")
+
 const renderResult = document.querySelector("#result")
 
-
+var compt = 0;
 function randomNumberGen(max){
    let randomInt =Math.floor(Math.random() * max);
     console.log(`Pssst le nombre est: ${randomInt}.`);
-    let compt = 0;
+
    return (rawInputInt) => {
        let inputInt = parseInt(rawInputInt, 10);
        if (isNaN(inputInt)) {
@@ -19,6 +24,7 @@ function randomNumberGen(max){
                compt =compt+1;
                initConfetti();
                render();
+               //sessionStorage.setItem('compteurValur',)
                return `Bravo! Tu as réussie en ${compt} coups.`;
            }else if (inputInt > randomInt){
                compt = compt+1;
@@ -36,17 +42,26 @@ function randomNumberGen(max){
 let initRandomNumber = randomNumberGen(100);
 
 const formNumberView = {
-    validateNumber() {
+    validate() {
         renderResult.innerHTML = initRandomNumber(InputNumber.value);
     },
     hide(){
         
     }
 }
+const formNameView = {
+    validate() {
+        renderResult.innerHTML = `test`/*nomFunction(InputName.value,compt)*/;
+    },
+    hide(){
+
+    }
+}
 
 const main = {
     init() {
-        validateNumber.addEventListener("click", formNumberView.validateNumber)
+        validateNumber.addEventListener("click", formNumberView.validate)
+        validateName.addEventListener("click", formNameView.validate)
     }
 }
 
