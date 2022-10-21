@@ -1,4 +1,3 @@
-//git branch feature-exo1
 const InputNumber = document.querySelector("#input-number")
 const validateNumber = document.querySelector("#valid-number")
 const formNumber = document.querySelector("#form-number")
