@@ -8,7 +8,7 @@ const formName = document.querySelector("#form-name")
 
 const renderResult = document.querySelector("#result")
 
-var compt = 0;
+var triesCounter = 0;
 function randomNumberGen(max){
    let randomInt =Math.floor(Math.random() * max);
     console.log(`Pssst le nombre est: ${randomInt}.`);
@@ -21,17 +21,19 @@ function randomNumberGen(max){
            if(inputInt<1 || inputInt>max){
                return `Le nombre entré doit être compris entre 1 et ${max}.`
            } else if (inputInt == randomInt){
-               compt =compt+1;
+               triesCounter += 1;
                initConfetti();
                render();
-               //sessionStorage.setItem('compteurValur',)
-               return `Bravo! Tu as réussie en ${compt} coups.`;
+               formNumberView.hide()
+               InputNumber.value = "";
+               formNameView.display()
+               return `Bravo! Tu as réussie en ${triesCounter} coups.`;
            }else if (inputInt > randomInt){
-               compt = compt+1;
-               return `C'est moins! Ça fait ${compt} coups.`;
+               triesCounter += 1;
+               return `C'est moins! Ça fait ${triesCounter} coups.`;
            }else if (inputInt < randomInt){
-               compt = compt+1;
-               return `C'est plus! Ça fait ${compt} coups.`;
+               triesCounter += 1;
+               return `C'est plus! Ça fait ${triesCounter} coups.`;
            }else {
                return `Il faut entrer un nombre entier !`
            }
@@ -46,15 +48,27 @@ const formNumberView = {
         renderResult.innerHTML = initRandomNumber(InputNumber.value);
     },
     hide(){
-        
+        formNumber.classList.add("hide");
+    },
+    display(){
+        formNumber.classList.remove("hide");
     }
 }
 const formNameView = {
     validate() {
-        renderResult.innerHTML = `test`/*nomFunction(InputName.value,compt)*/;
+        renderResult.innerHTML = `${triesCounter}`/*nomFunction(InputName.value,triesCounter)*/;
+        triesCounter = 0;
+        formNameView.hide()
+        initRandomNumber = randomNumberGen(100);
+        InputName.value = "";
+        formNumberView.display()
+
     },
     hide(){
-
+        formName.classList.add("hide");
+    },
+    display(){
+        formName.classList.remove("hide");
     }
 }
 
