@@ -20,7 +20,7 @@ function findNumber() {
     // scores.push(nbTries);
     // console.log(scores);
 
-    localStorage.setItem('listOfScores', nbTries);
+    localStorage.setItem(document.getElementById('name').value, nbTries);
   }
   document.getElementById('demo').innerHTML = text;
 }
@@ -28,17 +28,20 @@ function findNumber() {
 //   } else document.getElementById('errorText').innerHTML = errorText;
 // }
 function saveName() {
-  localStorage.setItem(
-    'listOfNames',
-    JSON.stringify(document.getElementById('name').value)
-  );
+  // localStorage.setItem(
+  //   'listOfNames',
+  //   JSON.stringify(document.getElementById('name').value)
+  // );
   //   names.push(document.getElementById('name').value);
   //   console.log(names);
   document.getElementById('formName').style.display = 'none';
 }
-let score = JSON.parse(localStorage.getItem('listOfScores'));
-scores.push(score);
-let naame = JSON.parse(localStorage.getItem('listOfNames'));
-names.push(naame);
-console.log(names);
+for (let i = 0; i < localStorage.length; i++) {}
+let score = JSON.parse(
+  localStorage.getItem(document.getElementById('name').value)
+);
+console.log(score);
+// let naame = JSON.parse(localStorage.getItem('listOfNames'));
+// names.push(naame);
+// console.log(names);
 console.log(scores);
