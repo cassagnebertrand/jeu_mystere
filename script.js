@@ -31,12 +31,21 @@ function randomNumberGen(max) {
     }
   };
 }
+function saveData(name, nbTries) {
+  localStorage.setItem(name, nbTries);
+
+  //   for (let i = 0; i < localStorage.length; i++) {}
+  //   let score = JSON.parse(
+  //     localStorage.getItem(document.getElementById('name').value)
+  //   );
+}
 
 let initRandomNumber = randomNumberGen(99);
 
 const formNumberView = {
   validateNumber() {
     renderResult.innerHTML = initRandomNumber(InputNumber.value);
+    saveData(akrem, InputNumber.value);
   },
   hide() {},
 };
