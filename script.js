@@ -5,6 +5,7 @@ const formNumber = document.querySelector("#form-number")
 const textInfoNumber = document.querySelector("#text-info-number")
 const validateNumber = document.querySelector("#valid-number")
 const inputNumber = document.querySelector("#input-number")
+const tableOfTryNumbers = document.querySelector("#table-of-try-numbers")
 
 const formName = document.querySelector("#form-name")
 const validateName = document.querySelector("#valid-name")
@@ -36,6 +37,11 @@ function initMysteryGame(maxNumberGen,maxTries){
    let latestInputs = [];
    textInfoNumber.innerHTML =`Entrer un nombre entre 1 et ${maxNumberGen} vous avez ${maxTries} essais`;
    return (rawInputInt) => {
+       let arrayRenderLastestInputs = ''
+       latestInputs.forEach(numberTry =>{
+           console.log(numberTry);
+           arrayRenderLastestInputs += `<br><span>${numberTry}</span>`;
+       })
        textInfoNumber.innerHTML =`Entrer un nombre entre 1 et ${maxNumberGen} vous avez ${maxTries-triesCounter-1} essais restants`;
        let inputInt = parseInt(rawInputInt, 10);
        if (isNaN(inputInt)) {
@@ -57,6 +63,7 @@ function initMysteryGame(maxNumberGen,maxTries){
            }else if (inputInt > randomInt){
                triesCounter += 1;
                latestInputs.push(inputInt);
+               tableOfTryNumbers.innerHTML = arrayRenderLastestInputs + `<br><span>${inputInt}</span>`;
                if (maxTries <= triesCounter){
                    formNumberView.hide()
                    inputNumber.value = "";
@@ -69,6 +76,7 @@ function initMysteryGame(maxNumberGen,maxTries){
            }else if (inputInt < randomInt){
                triesCounter += 1;
                latestInputs.push(inputInt);
+               tableOfTryNumbers.innerHTML = arrayRenderLastestInputs + `<br><span>${inputInt}</span>`;
                if (maxTries <= triesCounter){
                    formNumberView.hide()
                    inputNumber.value = "";

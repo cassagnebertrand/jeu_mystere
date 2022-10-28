@@ -19,3 +19,12 @@
 .success{
     color: darkgreen;
 }
+
+.container-flex{
+    display: flex;
+}
+
+#container-table-of-try-numbers{
+    border: 1px solid black;
+    box-sizing: border-box;
+}
