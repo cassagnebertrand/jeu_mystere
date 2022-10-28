@@ -1,14 +1,23 @@
 const InputNumber = document.querySelector('#input-number');
 const validateNumber = document.querySelector('#valid-number');
 const formNumber = document.querySelector('#form-number');
-const renderResult = document.querySelector('#result');
 
+const InputName = document.querySelector('#input-name');
+const validateName = document.querySelector('#valid-name');
+const formName = document.querySelector('#form-name');
+
+const renderResult = document.querySelector('#result');
+const playerList = document.querySelector('.player-list');
+const showPlayers = document.querySelector('#show-players');
+var triesCounter = 0;
+var compt = 0;
 function randomNumberGen(max) {
   let randomInt = Math.floor(Math.random() * max + 1);
   console.log(`Pssst le nombre est: ${randomInt}.`);
-  var compt = 0;
+
   return (rawInputInt) => {
     let inputInt = parseInt(rawInputInt, 10);
+
     if (isNaN(inputInt)) {
       return `Il faut entrer un nombre entier !`;
     } else {
@@ -18,6 +27,9 @@ function randomNumberGen(max) {
         compt = compt + 1;
         initConfetti();
         render();
+        formNumberView.hide();
+        InputNumber.value = '';
+        formNameView.display();
         return `Bravo! Tu as réussie en ${compt} coups.`;
       } else if (inputInt > randomInt) {
         compt = compt + 1;
@@ -33,26 +45,82 @@ function randomNumberGen(max) {
 }
 function saveData(name, nbTries) {
   localStorage.setItem(name, nbTries);
+}
+var playersNames;
+var playersScores = [];
+const highscores = [];
+function getData() {
+  let html = '';
 
-  //   for (let i = 0; i < localStorage.length; i++) {}
-  //   let score = JSON.parse(
-  //     localStorage.getItem(document.getElementById('name').value)
-  //   );
+  playersNames = Object.keys(localStorage);
+  playersNames.forEach((element) => {
+    let playerScore = JSON.parse(localStorage.getItem(element));
+    // playersScores.push(playerScore);
+    highscores.push({ player: element, score: playerScore });
+  });
+  console.log(highscores);
+  highscores.sort((a, b) => (a.score > b.score ? 1 : -1));
+  console.log(highscores);
+
+  let i = 0;
+  highscores.forEach((element) => {
+    html += `<li>le nom du joueur est : ${element.player} et son score est ${element.score} `;
+    i++;
+  });
+  return html;
 }
 
 let initRandomNumber = randomNumberGen(99);
 
 const formNumberView = {
-  validateNumber() {
+  validate() {
     renderResult.innerHTML = initRandomNumber(InputNumber.value);
-    saveData(akrem, InputNumber.value);
   },
-  hide() {},
+  hide() {
+    formNumber.classList.add('hide');
+  },
+  display() {
+    formNumber.classList.remove('hide');
+  },
 };
-
+const formNameView = {
+  validate() {
+    saveData(InputName.value, compt);
+    formNameView.hide();
+    initRandomNumber = randomNumberGen(99);
+    InputName.value = '';
+    formNumberView.display();
+    renderResult.innerHTML = '';
+    compt = 0;
+  },
+  hide() {
+    formName.classList.add('hide');
+  },
+  display() {
+    formName.classList.remove('hide');
+  },
+};
+const listOfPlayersView = {
+  validate() {
+    playerList.innerHTML = '';
+    playerList.innerHTML = getData();
+  },
+  hide() {
+    showPlayers.classList.add('hide');
+  },
+  display() {
+    showPlayers.classList.remove('hide');
+  },
+};
 const main = {
   init() {
-    validateNumber.addEventListener('click', formNumberView.validateNumber);
+    validateNumber.addEventListener(
+      'click',
+
+      formNumberView.validate
+    );
+    validateName.addEventListener('click', formNameView.validate);
+    showPlayers.addEventListener('click', listOfPlayersView.validate);
   },
 };
 
