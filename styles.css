@@ -22,6 +22,7 @@
 
 .container-flex{
     display: flex;
+    justify-content: space-between;
 }
 
 #container-table-of-try-numbers{

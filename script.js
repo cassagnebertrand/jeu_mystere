@@ -39,16 +39,15 @@ function initMysteryGame(maxNumberGen,maxTries){
    return (rawInputInt) => {
        let arrayRenderLastestInputs = ''
        latestInputs.forEach(numberTry =>{
-           console.log(numberTry);
-           arrayRenderLastestInputs += `<br><span>${numberTry}</span>`;
+           arrayRenderLastestInputs += `<span>${numberTry}</span><br>`;
        })
-       textInfoNumber.innerHTML =`Entrer un nombre entre 1 et ${maxNumberGen} vous avez ${maxTries-triesCounter-1} essais restants`;
+       textInfoNumber.innerHTML =`Entrer un nombre entre 1 et ${maxNumberGen} vous avez ${maxTries-triesCounter} essais restants`;
        let inputInt = parseInt(rawInputInt, 10);
        if (isNaN(inputInt)) {
            return `<span class="alert">Il faut entrer un nombre entier !</span>`;
        }else {
            if(inputInt<1 || inputInt>maxNumberGen){
-               return `<span class="alert">Le nombre entré doit être compris entre 1 et ${max}.</span>`
+               return `<span class="alert">Le nombre entré doit être compris entre 1 et ${maxNumberGen}.</span>`
            }else if(latestInputs.includes(inputInt)){
                return `<span class="alert">Tu as deja essayer ${inputInt} !</span>`
            }else if (inputInt === randomInt){
@@ -63,7 +62,7 @@ function initMysteryGame(maxNumberGen,maxTries){
            }else if (inputInt > randomInt){
                triesCounter += 1;
                latestInputs.push(inputInt);
-               tableOfTryNumbers.innerHTML = arrayRenderLastestInputs + `<br><span>${inputInt}</span>`;
+               tableOfTryNumbers.innerHTML = arrayRenderLastestInputs + `<span>${inputInt}</span><br>`;
                if (maxTries <= triesCounter){
                    formNumberView.hide()
                    inputNumber.value = "";
@@ -71,12 +70,13 @@ function initMysteryGame(maxNumberGen,maxTries){
                    initRandomNumber = initMysteryGame(selectedDifficultyInfo.maxNumberGen,selectedDifficultyInfo.maxTries);
                    return `<span class="alert">Dommage ! C'était le dernier essai.</span>`
                }else {
+                   textInfoNumber.innerHTML =`Entrer un nombre entre 1 et ${maxNumberGen} vous avez ${maxTries-triesCounter} essais restants`;
                    return `<span class="warning">C'est moins! Ça fait ${triesCounter} coups.</span>`;
                }
            }else if (inputInt < randomInt){
                triesCounter += 1;
                latestInputs.push(inputInt);
-               tableOfTryNumbers.innerHTML = arrayRenderLastestInputs + `<br><span>${inputInt}</span>`;
+               tableOfTryNumbers.innerHTML = arrayRenderLastestInputs + `<span>${inputInt}</span><br>`;
                if (maxTries <= triesCounter){
                    formNumberView.hide()
                    inputNumber.value = "";
@@ -84,6 +84,7 @@ function initMysteryGame(maxNumberGen,maxTries){
                    initRandomNumber = initMysteryGame(selectedDifficultyInfo.maxNumberGen,selectedDifficultyInfo.maxTries);
                    return `<span class="alert">Dommage ! C'était le dernier essai.</span>`
                }else {
+                   textInfoNumber.innerHTML =`Entrer un nombre entre 1 et ${maxNumberGen} vous avez ${maxTries-triesCounter} essais restants`;
                    return `<span class="warning">C'est plus! Ça fait ${triesCounter} coups.</span>`;
                }
            }else {
