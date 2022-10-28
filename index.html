@@ -9,7 +9,8 @@
 
 <canvas class="confetti" id="canvas"></canvas>
 
-<div id="form-number" class="">
+<div id="form-number" class="hide">
+    <p id="text-info-number">Entrer un nombre</p>
     <input
             id="input-number"
             type="number"
@@ -19,6 +20,7 @@
     <button id="valid-number">valider</button>
 </div>
 <div id="form-name" class="hide">
+    <p>Entrer votre nom</p>
     <input
             id="input-name"
             type="text"
@@ -27,8 +29,28 @@
     />
     <button id="valid-name">valider</button>
 </div>
+<div id="form-difficulty">
+    <p>Veuillez choisir la difficulté</p>
+    <div>
+        <input type="radio" id="difficultyChoice1"
+               name="difficultyRadio" value="1" checked>
+        <label for="difficultyChoice1">Facile</label>
+
+        <input type="radio" id="difficultyChoice2"
+               name="difficultyRadio" value="2">
+        <label for="difficultyChoice2">Moyen</label>
+
+        <input type="radio" id="difficultyChoice3"
+               name="difficultyRadio" value="3">
+        <label for="difficultyChoice3">Difficile</label>
+    </div>
+    <button id="valid-difficulty">valider</button>
+</div>
+
+
 <div id="result"></div>
 
-<script src="script.js"></script>
+<script type="module" src="script.js"></script>
+
 </body>
 </html>

@@ -9,3 +9,13 @@
 .hide{
     display: none;
 }
+
+.alert{
+    color: darkred;
+}
+.warning{
+    color: orangered;
+}
+.success{
+    color: darkgreen;
+}
