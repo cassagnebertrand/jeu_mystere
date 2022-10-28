@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Jeu mystère</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<canvas class="confetti" id="canvas"></canvas>
+
+<div id="form-number" class="">
+    <input
+            id="input-number"
+            type="number"
+            placeholder="Entrer un nombre"
+            required
+    />
+    <button id="valid-number">valider</button>
+</div>
+<div id="form-name" class="hide">
+    <input
+            id="input-name"
+            type="text"
+            placeholder="Entrer votre nom"
+            required
+    />
+    <button id="valid-name">valider</button>
+</div>
+<div id="result"></div>
+<button id="show-players">Show players</button>
+<button id="replay">Replay</button>
+<button id="reset-score">Reset score</button>
+<div class="player-list"></div>
+<input
+            id="search-score"
+            type="text"
+            placeholder="Entrer votre nom"
+            required
+    />
+    <button id="valid-search">valider</button>
+    <div class="scoreOfPlayer"></div>
+
+
+<script src="script.js" type="module"></script>
+</body>
+</html>
