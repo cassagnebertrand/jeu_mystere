@@ -27,6 +27,8 @@ Jusqu'à quel intervalle le nombre aléatoire sera générer (maxNumberGen)
 
 Et le multiplicateur de score utilisé dans le calcul de score final (scoreMultiplicator)
 
+
 # Bonne chance !
 
 <sub>Psssssssssst ! Pour les tricheurs le nombre mystère est dans la console</sub>
+
