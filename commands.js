@@ -1,9 +1,34 @@
+import {replayView, formDifficultyView, formNameView, setImg, renderResult, inputName} from "./script.js"
+import {config} from "./config.js";
+
 export const commands = {
     run(){
-        replay.addEventListener("click",window.location.reload())
+        replayView.hide()
+        formDifficultyView.display()
+        setImg()
+        renderResult.innerHTML = ''
     },
-     saveData(name, nbTries) {
-        localStorage.setItem(name, nbTries);
+     saveData(name, score) {
+         if (name === ""){
+             return `<span class="alert">Entrer votre nom !</span>`
+         } else if (name.length > config.maxCharUsername) {
+             inputName.value = ''
+             return `<span class="alert">Votre nom est trop long ! <br> Il ne doit pas dépasser ${config.maxCharUsername} caractères.</span>`
+         } else {
+             var highscores = this.score()
+             let found = highscores.find((p)=> p.player == name);
+             if (found){
+                 return `<span class="warning">${name} est déjà pris</span>`
+
+             } else {
+                 let scoreEnd = Math.trunc(parseFloat(score));
+                 localStorage.setItem(name, scoreEnd);
+                 inputName.value = "";
+                 formNameView.hide()
+                 replayView.display()
+                 return `<span class="success">Bien joué ${name} !</span>`
+             }
+         }
       },
     score(){
       
@@ -15,21 +40,27 @@ export const commands = {
               let playerScore = JSON.parse(localStorage.getItem(element));
               highscores.push({ player: element, score: playerScore });
             });
-            console.log(highscores);
-            highscores.sort((a, b) => (a.score > b.score ? 1 : -1));
-            console.log(highscores);
+
+            highscores.sort((a, b) => (a.score < b.score ? 1 : -1));
               
             return highscores;
           
     },
     displayListOfPlayers(listOfPlayer){
-        let i = 0;
-        let html = "";
-        listOfPlayer.forEach((element) => {
-            html += `<li>le nom du joueur est : ${element.player} et son score est ${element.score} `;
-            i++;
-          });
-        return html;
+        if (listOfPlayer.length > 0){
+            let html = "";
+            listOfPlayer.forEach((element) => {
+                html += `<tr>
+                            <td class="list-score"> ${element.score}</td>
+                            <td> points pour </td>
+                            <td class="list-player">${element.player}</td>
+                         </tr>`;
+            });
+            return html;
+        }else {
+            return `<span class="warning">Il n'y a aucun joueur enregistré pour le moment</span>`
+        }
+
     },
     resetScore(){
         localStorage.clear();
@@ -39,10 +70,10 @@ export const commands = {
         var highscores = this.score()
         let found = highscores.find((p)=> p.player == name);
         if (found){           
-            return `le score est ${found.score}`
+            return `Le score de <span class="list-player">${name}</span> est <span class="list-score">${found.score}</span>`
                             
         } else {
-            return "ce joueur n'existe pas !"
+            return `<span class="alert">Ce joueur n'existe pas !</span>`
         }
      
     }

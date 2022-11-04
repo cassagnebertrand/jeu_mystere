@@ -1,25 +1,34 @@
+import {config, configDifficulty} from "./config.js";
 import {commands} from "./commands.js";
-const InputNumber = document.querySelector('#input-number');
-const validateNumber = document.querySelector('#valid-number');
-const formNumber = document.querySelector('#form-number');
 
-const InputName = document.querySelector('#input-name');
-const validateName = document.querySelector('#valid-name');
-const formName = document.querySelector('#form-name');
 
-const renderResult = document.querySelector('#result');
+const formNumber = document.querySelector("#form-number")
+const textInfoNumber = document.querySelector("#text-info-number")
+const validateNumber = document.querySelector("#valid-number")
+const inputNumber = document.querySelector("#input-number")
+const tableOfTryNumbers = document.querySelector("#table-of-try-numbers")
+
+const formName = document.querySelector("#form-name")
+const validateName = document.querySelector("#valid-name")
+export const inputName = document.querySelector("#input-name")
+
+const formDifficulty = document.querySelector("#form-difficulty")
+const validateDifficulty = document.querySelector("#valid-difficulty")
+
+export const renderResult = document.querySelector("#result")
+
 const playerList = document.querySelector('.player-list');
 const showPlayers = document.querySelector('#show-players');
+
+const formReplay = document.querySelector('#form-replay')
 const replay = document.querySelector('#replay');
 const reset = document.querySelector('#reset-score');
 const searchScore = document.querySelector('#search-score');
 const validSearch = document.querySelector('#valid-search');
 const scoreOfPlayer = document.querySelector('.scoreOfPlayer');
-var triesCounter = 0;
-var compt = 0;
+
 
 function tryOrTries(triesCounter){
-    console.log(triesCounter);
     if(triesCounter===1){
         return "coup";
     } else {
@@ -27,115 +36,255 @@ function tryOrTries(triesCounter){
     }
 }
 
-function randomNumberGen(max) {
-  let randomInt = Math.floor(Math.random() * max + 1);
-  console.log(`Pssst le nombre est: ${randomInt}.`);
 
-  return (rawInputInt) => {
-    let inputInt = parseInt(rawInputInt, 10);
 
-    if (isNaN(inputInt)) {
-      return `Il faut entrer un nombre entier !`;
-    } else {
-      if (inputInt < 1 || inputInt > max) {
-        return `Le nombre entré doit être compris entre 1 et ${max}.`;
-      } else if (inputInt == randomInt) {
-        compt = compt + 1;
-        initConfetti();
-        render();
-        formNumberView.hide();
-        InputNumber.value = '';
-        formNameView.display();
-        return `Bravo! Tu as réussie en ${compt} ${tryOrTries(compt)}`;
-      } else if (inputInt > randomInt) {
-        compt = compt + 1;
-        return `C'est moins! Ça fait ${compt} ${tryOrTries(compt)}`;
-      } else if (inputInt < randomInt) {
-        compt = compt + 1;
-        return `C'est plus! Ça fait ${compt} ${tryOrTries(compt)}`;
-      } else {
-        return `Il faut entrer un nombre entier !`;
-      }
-    }
-  };
+function inputDifficulty() {
+        var ele = document.getElementsByName('difficultyRadio');
+
+        for(let i = 0; i < ele.length; i++) {
+            if(ele[i].checked)
+                return ele[i].value;
+        }
 }
 
 
-let initRandomNumber = randomNumberGen(99);
+export var triesCounter = 0;
+export var score = 0;
+
+score = 0
+
+function initMysteryGame(maxNumberGen,maxTries){
+   let randomInt =Math.floor(Math.random() * maxNumberGen);
+   console.clear()
+   console.log(`Pssst le nombre est: ${randomInt}.`);
+   let latestInputs = [];
+   textInfoNumber.innerHTML =`Entrer un nombre entre 1 et ${maxNumberGen} <br> Vous avez ${maxTries} essais`;
+   return (rawInputInt) => {
+       let arrayRenderLastestInputs = ''
+       latestInputs.forEach(numberTry =>{
+           arrayRenderLastestInputs += `<tr><td>${numberTry}</td></tr>`;
+       })
+       textInfoNumber.innerHTML =`Entrer un nombre entre 1 et ${maxNumberGen} <br> Vous avez ${maxTries-triesCounter} essais restants`;
+       let inputInt = parseInt(rawInputInt, 10);
+       if (isNaN(inputInt)) {
+           return `<span class="alert">Il faut entrer un nombre entier !</span>`;
+       }else {
+           if(inputInt<1 || inputInt>maxNumberGen){
+               return `<span class="alert">Le nombre entré doit être compris entre 1 et ${maxNumberGen}.</span>`
+           }else if(latestInputs.includes(inputInt)){
+               return `<span class="alert">Tu as deja essayer ${inputInt} !</span>`
+           }else if (inputInt === randomInt){
+               triesCounter += 1;
+               initConfetti();
+               renderConfetti();
+               setImg('cat-flower')
+               formNumberView.hide()
+               inputNumber.value = "";
+               formNameView.display()
+               score = (config.maxScoreRegistered/triesCounter)*selectedDifficultyInfo.scoreMultiplicator;
+               tableOfTryNumbers.innerHTML = ''
+               return `<span class="success">Bravo! Tu as réussie en ${triesCounter} ${tryOrTries(triesCounter)}.</span>`;
+           }else if (inputInt > randomInt){
+               triesCounter += 1;
+               latestInputs.push(inputInt);
+               tableOfTryNumbers.innerHTML = arrayRenderLastestInputs + `<tr><td>${inputInt}</td></tr>`;
+               if (maxTries <= triesCounter){
+                   formNumberView.hide()
+                   inputNumber.value = "";
+                   replayView.display()
+                   initRandomNumber = initMysteryGame(selectedDifficultyInfo.maxNumberGen,selectedDifficultyInfo.maxTries);
+                   tableOfTryNumbers.innerHTML = ''
+                   return `<span class="alert">Dommage ! C'était le dernier essai.</span>`
+               }else {
+                   textInfoNumber.innerHTML =`Entrer un nombre entre 1 et ${maxNumberGen} <br> Vous avez ${maxTries-triesCounter} essais restants`;
+                   return `<span class="warning">C'est moins! Ça fait ${triesCounter} ${tryOrTries(triesCounter)}.</span>`;
+               }
+           }else if (inputInt < randomInt){
+               triesCounter += 1;
+               latestInputs.push(inputInt);
+               tableOfTryNumbers.innerHTML = arrayRenderLastestInputs + `<tr><td>${inputInt}</td></tr>`;
+               if (maxTries <= triesCounter){
+                   formNumberView.hide()
+                   inputNumber.value = "";
+                   replayView.display()
+                   initRandomNumber = initMysteryGame(selectedDifficultyInfo.maxNumberGen,selectedDifficultyInfo.maxTries);latestInputs = []
+                   tableOfTryNumbers.innerHTML = ''
+                   return `<span class="alert">Dommage ! C'était le dernier essai.</span>`
+               }else {
+                   textInfoNumber.innerHTML =`Entrer un nombre entre 1 et ${maxNumberGen} <br> Vous avez ${maxTries-triesCounter} essais restants`;
+                   return `<span class="warning">C'est plus! Ça fait ${triesCounter} ${tryOrTries(triesCounter)}.</span>`;
+               }
+           }else {
+               return `<span class="alert">Il faut entrer un nombre entier !</span>`
+           }
+       }
+   }
+}
+
+
+let initRandomNumber = () => {}
 
 const formNumberView = {
-  validate() {
-    renderResult.innerHTML = initRandomNumber(InputNumber.value);
-  },
-  hide() {
-    formNumber.classList.add('hide');
-  },
-  display() {
-    formNumber.classList.remove('hide');
-  },
-};
-const formNameView = {
-  validate() {
-    commands.saveData(InputName.value, compt);
-    formNameView.hide();
-    initRandomNumber = randomNumberGen(99);
-    InputName.value = '';
-    formNumberView.display();
-    renderResult.innerHTML = '';
-    compt = 0;
-  },
-  hide() {
-    formName.classList.add('hide');
-  },
-  display() {
-    formName.classList.remove('hide');
-  },
-};
+    validate() {
+        renderResult.innerHTML = initRandomNumber(inputNumber.value);
+    },
+    hide(){
+        formNumber.classList.add("hide");
+    },
+    display(){
+        formNumber.classList.remove("hide");
+    }
+}
+export const formNameView = {
+    validate() {
+        renderResult.innerHTML = commands.saveData(inputName.value, score)
+    },
+    hide(){
+        formName.classList.add("hide");
+    },
+    display(){
+        formName.classList.remove("hide");
+    }
+}
+
 const listOfPlayersView = {
-  validate() {
-    playerList.innerHTML = '';
-    playerList.innerHTML = commands.displayListOfPlayers(commands.score());
-  },
-  hide() {
-    showPlayers.classList.add('hide');
-  },
-  display() {
-    showPlayers.classList.remove('hide');
-  },
+    validate() {
+        playerList.innerHTML = '';
+        playerList.innerHTML = commands.displayListOfPlayers(commands.score());
+    },
+    hide() {
+        showPlayers.classList.add('hide');
+    },
+    display() {
+        showPlayers.classList.remove('hide');
+    },
 };
 
 const ScoreView = {
     validate() {
         scoreOfPlayer.innerHTML = '';
         scoreOfPlayer.innerHTML = commands.searchScore(searchScore.value);
-        console.log(commands.searchScore(searchScore.value))
-        console.log(searchScore.value);
-      },
-      hide() {
+    },
+    hide() {
         showPlayers.classList.add('hide');
-      },
-      display() {
+    },
+    display() {
         showPlayers.classList.remove('hide');
-      },
+    },
 }
-const main = {
-  init() {
-    validateNumber.addEventListener(
-      'click',
 
-      formNumberView.validate
-    );
-    validateName.addEventListener('click', formNameView.validate);
-    showPlayers.addEventListener('click', listOfPlayersView.validate);
-    replay.addEventListener('click',commands.run);
-    reset.addEventListener('click',commands.resetScore);
-    validSearch.addEventListener('click',ScoreView.validate);
-  },
+export const replayView = {
+    validate() {
+        commands.run();
+        score = 0;
+        triesCounter = 0;
+    },
+    hide() {
+        formReplay.classList.add('hide');
+    },
+    display() {
+        formReplay.classList.remove('hide');
+    },
+}
+
+var selectedDifficultyInfo = {
+    scoreMultiplicator: configDifficulty.scoreMultiplicatorEseay,
+    maxNumberGen: configDifficulty.initEasy.maxNumberGen,
+    maxTries: configDifficulty.initEasy.maxTries
 };
+export const formDifficultyView = {
+    validate() {
+        selectedDifficultyInfo = selectedDifficultyInit(inputDifficulty());
+        initRandomNumber = initMysteryGame(selectedDifficultyInfo.maxNumberGen,selectedDifficultyInfo.maxTries);
+        formDifficultyView.hide()
+        formNumberView.display()
+    },
+    hide(){
+        formDifficulty.classList.add("hide");
+    },
+    display(){
+        formDifficulty.classList.remove("hide");
+    }
+}
+
+
+function selectedDifficultyInit(selectedDifficulty){
+    if (selectedDifficulty==difficultyChoice.easy){
+        return {
+            scoreMultiplicator: configDifficulty.scoreMultiplicatorEseay,
+            maxNumberGen: configDifficulty.initEasy.maxNumberGen,
+            maxTries: configDifficulty.initEasy.maxTries
+        };
+    }else if (selectedDifficulty==difficultyChoice.medium){
+        return {
+            scoreMultiplicator: configDifficulty.scoreMultiplicatorMedium,
+            maxNumberGen: configDifficulty.initMedium.maxNumberGen,
+            maxTries: configDifficulty.initMedium.maxTries
+        };
+    }else if (selectedDifficulty==difficultyChoice.hard){
+        return {
+            scoreMultiplicator: configDifficulty.scoreMultiplicatorHard,
+            maxNumberGen: configDifficulty.initHard.maxNumberGen,
+            maxTries: configDifficulty.initHard.maxTries
+        };
+    }else {
+        return {
+            scoreMultiplicator: configDifficulty.scoreMultiplicatorEseay,
+            maxNumberGen: configDifficulty.initEasy.maxNumberGen,
+            maxTries: configDifficulty.initEasy.maxTries
+        };
+    }
+}
+const difficultyChoice = {
+    easy: 1,
+    medium: 2,
+    hard: 3,
+}
+
+const main = {
+    init() {
+        validateNumber.addEventListener("click", formNumberView.validate)
+        validateName.addEventListener("click", formNameView.validate)
+        validateDifficulty.addEventListener("click", formDifficultyView.validate)
+
+        showPlayers.addEventListener('click', listOfPlayersView.validate);
+        replay.addEventListener('click',replayView.validate);
+        reset.addEventListener('click',commands.resetScore);
+        validSearch.addEventListener('click',ScoreView.validate);
+    }
+}
+
+export function setImg(imgFileName=null) {
+    if (imgFileName==null){
+        document.querySelector("#img-cat").setAttribute("src", "")
+
+    }else {
+        document.querySelector("#img-cat").setAttribute("src", "assets/img/" + imgFileName + ".png")
+    }
+
+}
+
+window.addEventListener("load", main.init)
 
 
 
-window.addEventListener('load', main.init);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 //-----------Var Inits--------------
 let canvas = document.getElementById("canvas");
@@ -197,7 +346,7 @@ let initConfetti = () => {
 };
 
 //---------Render-----------
-let render = () => {
+let renderConfetti = () => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     confetti.forEach((confetto, index) => {
@@ -237,7 +386,7 @@ let render = () => {
 
 
 
-    window.requestAnimationFrame(render);
+    window.requestAnimationFrame(renderConfetti);
 };
 
 
@@ -245,3 +394,4 @@ let render = () => {
 window.addEventListener('resize', function () {
     resizeCanvas();
 });
+
