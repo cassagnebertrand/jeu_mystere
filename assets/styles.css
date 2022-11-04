@@ -1,0 +1,134 @@
+.confetti{
+    max-width: 100%;
+    display: block;
+    margin: 0 auto;
+    border: 1px solid #ddd;
+    user-select: none;
+}
+
+.hide{
+    display: none;
+}
+
+.container-grid{
+    display: grid;
+    grid-template-columns: auto;
+    grid-gap: 10px;
+}
+.grid-one {
+    grid-column: 1 / 1;
+    grid-row: 1;
+    z-index: 2;
+}
+.grid-two {
+    grid-column: 1 / 1;
+    grid-row: 1;
+    z-index: 3;
+}
+.grid-three{
+    grid-column: 1 / 1;
+    grid-row: 1;
+    z-index: 4;
+}
+
+img{
+    height: 200px;
+}
+
+.alert{
+    color: red;
+}
+.warning{
+    color: orangered;
+}
+.success{
+    color: darkgreen;
+}
+
+.bg-alert{
+    background-color: darkred;
+}
+.bg-warning{
+    background-color: orangered;
+}
+.bg-success{
+    background-color: darkgreen;
+}
+.container{
+    padding: 1rem;
+}
+.container-flex-center{
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-wrap: wrap;
+}
+.container-flex-between{
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+.container-flex{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#container-table-of-try-numbers{
+    border: 1px solid #dddddd;
+    box-sizing: border-box;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem ;
+}
+.list-score{
+    color: orangered;
+    text-align: right;
+
+}
+.p-1{
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+p{
+    color: #dddddd;
+}
+.list-player{
+    color: darkgreen;
+}
+body{
+    background-color: #212121;
+}
+input{
+    border: #dddddd 1px solid;
+    padding: 0.2rem;
+    background-color: #212121;
+    color: #dddddd;
+}
+
+button {
+    border: none;
+    color: black;
+    padding: 0.2rem 0.2rem;
+    text-decoration: none;
+    font-size: 16px;
+    border-radius: 3px;
+}
+button:hover{
+    opacity: 80%;
+}
+div{
+    font-size: 1em;
+}
+label{
+    color: #dddddd;
+    font-size: 1em;
+}
+table{
+    color: #dddddd;
+    font-size: 1em;
+}
+section:nth-child(1){
+    flex-basis: 60%;
+}
+section:nth-child(2){
+    flex-basis: 30%;
+}

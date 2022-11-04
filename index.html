@@ -2,46 +2,101 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Jeu mystère</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Title</title>
+    <link rel="stylesheet" href="assets/styles.css">
 </head>
 <body>
 
-<canvas class="confetti" id="canvas"></canvas>
 
-<div id="form-number" class="">
-    <input
-            id="input-number"
-            type="number"
-            placeholder="Entrer un nombre"
-            required
-    />
-    <button id="valid-number">valider</button>
-</div>
-<div id="form-name" class="hide">
-    <input
-            id="input-name"
-            type="text"
-            placeholder="Entrer votre nom"
-            required
-    />
-    <button id="valid-name">valider</button>
-</div>
-<div id="result"></div>
-<button id="show-players">Show players</button>
-<button id="replay">Replay</button>
-<button id="reset-score">Reset score</button>
-<div class="player-list"></div>
-<input
-            id="search-score"
-            type="text"
-            placeholder="Entrer votre nom"
-            required
-    />
-    <button id="valid-search">valider</button>
-    <div class="scoreOfPlayer"></div>
+<main>
+    <div class="container container-flex">
+        <section class="container">
+            <div class="container-grid">
+                <canvas class="confetti grid-one" id="canvas"></canvas>
+                <div class="grid-two container-flex">
+                    <img id="img-cat" src="">
+                </div>
+                <div class="grid-three container-flex-center">
+                    <div id="result"></div>
+                </div>
+            </div>
+            <div id="form-difficulty"class="container">
+                <p>Veuillez choisir la difficulté</p>
+                <div class="p-1">
+                    <input type="radio" id="difficultyChoice1"
+                           name="difficultyRadio" value="1" checked>
+                    <label for="difficultyChoice1">Facile</label>
+
+                    <input type="radio" id="difficultyChoice2"
+                           name="difficultyRadio" value="2">
+                    <label for="difficultyChoice2">Moyen</label>
+
+                    <input type="radio" id="difficultyChoice3"
+                           name="difficultyRadio" value="3">
+                    <label for="difficultyChoice3">Difficile</label>
+                </div>
+                <button id="valid-difficulty" class="bg-success">valider</button>
+            </div>
+            <div id="form-name" class="hide container">
+                <p>Entrer votre nom</p>
+                <input
+                        id="input-name"
+                        type="text"
+                        placeholder="Entrer votre nom"
+                        required
+                />
+                <button id="valid-name" class="bg-success">valider</button>
+            </div>
+            <div id="form-number" class="hide container">
+                <div class="container-flex-between">
+                    <div>
+                        <p id="text-info-number">Entrer un nombre</p>
+                        <input
+                                id="input-number"
+                                type="number"
+                                placeholder="Entrer un nombre"
+                                required
+                        />
+                        <button id="valid-number" class="bg-success">valider</button>
+
+                    </div>
+                    <div id="container-table-of-try-numbers">
+                        <p>Nombres essayé:</p>
+                        <table id="table-of-try-numbers">
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div id="form-replay" class="hide">
+                <div class="container-flex-center">
+                    <button id="replay" class="bg-success">Rejouer</button>
+                </div>
+            </div>
+        </section>
+        <section class="container">
+            <div class="container">
+                <button id="show-players" class="bg-warning">Voir le classement</button>
+                <button id="reset-score" class="bg-alert">Reset le classement</button>
+            </div>
+            <div class="container">
+                <input
+                        id="search-score"
+                        type="text"
+                        placeholder="Rechercher un joueur"
+                        required
+                />
+                <button id="valid-search" class="bg-success">valider</button>
+                <div class="scoreOfPlayer container"></div>
+            </div>
+            <table class="player-list"></table>
+        </section>
+    </div>
+</main>
 
 
-<script src="script.js" type="module"></script>
+<script type="module" src="script.js"></script>
+<script type="module" src="config.js"></script>
+<script type="module" src="commands.js"></script>
 </body>
 </html>
